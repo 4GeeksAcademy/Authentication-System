@@ -1,10 +1,7 @@
 """
-Flask app that serves both API endpoints and React static files
+This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-
 from flask import Flask, request, jsonify, send_from_directory
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -14,10 +11,10 @@ import jwt
 import datetime
 from functools import wraps
 
-app = Flask(__name__, static_folder='../../front/dist', static_url_path='')
+app = Flask(__name__, static_folder='../front/dist', static_url_path='')
 app.url_map.strict_slashes = False
 
-# database configuration
+# Database configuration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
@@ -27,13 +24,13 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'your-secret-key-change-in-production')
 
-# Initialize SQLAlchemy
+# Initialize extensions
 db = SQLAlchemy()
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 CORS(app)
 
-# User Model (inline since we can't import)
+# User Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)

@@ -48,13 +48,8 @@ export const useAuth = () => {
   return context;
 };
 
-// API configuration - use relative URLs since everything runs on same port
-const getApiBaseUrl = () => {
-  return '/api'; 
-};
-
-const API_BASE_URL = getApiBaseUrl();
-console.log('API_BASE_URL:', API_BASE_URL);
+// API configuration - relative URLs since both frontend and backend on same port
+const API_BASE_URL = '/api';
 
 export const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
