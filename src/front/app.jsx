@@ -48,19 +48,9 @@ export const useAuth = () => {
   return context;
 };
 
-// API configuration
+// API configuration - use relative URLs since everything runs on same port
 const getApiBaseUrl = () => {
-  if (import.meta.env.VITE_BACKEND_URL) {
-    return import.meta.env.VITE_BACKEND_URL;
-  }
-  
-  if (window.location.hostname.includes('app.github.dev')) {
-    const hostname = window.location.hostname;
-    const backendHostname = hostname.replace('-3005.', '-3001.');
-    return `https://${backendHostname}`;
-  }
-  
-  return 'http://localhost:3001';
+  return '/api'; 
 };
 
 const API_BASE_URL = getApiBaseUrl();
